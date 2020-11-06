@@ -1,8 +1,8 @@
-<div style="text-align: center;">
-  <h1>Welcome to fake-umbrella!</h1>
-  <img
-    width="450"
-    src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-  />
-</div>
-<div>Message: {{ hello$ | async | json }}</div>
+<nav>
+  <ul>
+    <li><a routerLink="/customer-database">Customer database</a></li>
+    <li><a routerLink="/customers-with-rain">Customers experiencing rain</a></li>
+    <li><a routerLink="/top-customers">Top customers</a></li>
+  </ul>
+</nav>
+<router-outlet></router-outlet>
