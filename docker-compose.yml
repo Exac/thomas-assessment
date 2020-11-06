@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    ports:
+      - 3333:3333
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+  fake-umbrella:
+    build:
+      context: .
+      dockerfile: ./apps/fake-umbrella/Dockerfile
+    ports:
+    - 4200:4200
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_module
