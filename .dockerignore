@@ -1,5 +1,5 @@
 node_modules/
 dist
 .dockerignore
-
+redis-data/dump.rdb
 

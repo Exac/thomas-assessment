@@ -19,3 +19,10 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_module
+  redis:
+    expose:
+      - 6379
+    image: redis:alpine
+    volumes:
+      - ./redis-data:/var/lib/redis
+
