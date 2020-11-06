@@ -8,10 +8,11 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { CustomerDatabaseComponent } from './customer-database/customer-database.component';
 import { CustomersWithRainComponent } from './customers-with-rain/customers-with-rain.component';
 import { TopCustomersComponent } from './top-customers/top-customers.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, CustomerDatabaseComponent, CustomersWithRainComponent, TopCustomersComponent],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
