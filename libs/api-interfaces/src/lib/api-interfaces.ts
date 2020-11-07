@@ -43,4 +43,6 @@ export class CreateCustomerDto
   employees: number;
 }
 
-export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {}
+export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
+  id: number;
+}
