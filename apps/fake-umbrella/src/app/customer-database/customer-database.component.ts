@@ -74,6 +74,10 @@ export class CustomerDatabaseComponent implements AfterViewInit {
     if (customer.id === -1) {
       // We need to add this new customer
       this.customers.data.push(customer);
+      this.customerDbService
+        .create(customer)
+        .subscribe((value) => console.log({ value }));
+      return;
     } else {
       const index = this.customers.data.findIndex((c) => c.id === customer.id);
       this.customers.data[index] = customer;
@@ -82,7 +86,13 @@ export class CustomerDatabaseComponent implements AfterViewInit {
     // Trigger MatDialog's change detection
     this.customers.data = this.customers.data;
 
-    // TODO: Call a customer API service and update the new customer
+    if (customer.id === -1) {
+      return;
+    }
+    // Call the customer API service and update the customer
+    this.customerDbService
+      .update(customer)
+      .subscribe((value) => console.log({ value }));
   }
 
   /** Deleted the customer in the GUI table, and in the database */

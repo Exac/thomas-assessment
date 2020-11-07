@@ -41,7 +41,7 @@ export class CreateCustomerDto
   employees: number;
 }
 
-export class UpdateCustomerDto {
+export class UpdateCustomerDto implements Partial<ICustomer> {
   id?: number;
   company?: string;
   contact?: string;

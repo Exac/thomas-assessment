@@ -1,28 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import {
   CreateCustomerDto,
+  ICustomer,
+  ICustomers,
+  Message,
   UpdateCustomerDto,
 } from '@thomas-assessment/api-interfaces';
 
 @Injectable()
 export class CustomerService {
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
+  create(createCustomerDto: CreateCustomerDto): ICustomer {
+    return;
   }
 
-  findAll() {
-    return `This action returns all customer`;
+  findAll(): ICustomers {
+    return [];
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  findOne(id: number): ICustomer {
+    return;
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+  update(id: number, updateCustomerDto: UpdateCustomerDto): ICustomer {
+    return;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  remove(id: number): Message {
+    return { message: `This action removes a #${id} customer` };
   }
 }
