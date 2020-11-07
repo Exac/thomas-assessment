@@ -9,10 +9,31 @@ import { CustomerDatabaseComponent } from './customer-database/customer-database
 import { CustomersWithRainComponent } from './customers-with-rain/customers-with-rain.component';
 import { TopCustomersComponent } from './top-customers/top-customers.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, CustomerDatabaseComponent, CustomersWithRainComponent, TopCustomersComponent],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, BrowserAnimationsModule],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    CustomerDatabaseComponent,
+    CustomersWithRainComponent,
+    TopCustomersComponent,
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
