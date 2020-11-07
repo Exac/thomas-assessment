@@ -1,5 +1,3 @@
-import { PartialType } from '@nestjs/mapped-types';
-
 export interface Message {
   message: string;
 }
@@ -43,6 +41,12 @@ export class CreateCustomerDto
   employees: number;
 }
 
-export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
-  id: number;
+export class UpdateCustomerDto {
+  id?: number;
+  company?: string;
+  contact?: string;
+  phone?: string;
+  location?: ILocation;
+  employees?: number;
+  rain?: boolean;
 }
