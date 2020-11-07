@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  CustomerData,
-  CustomerDatabaseComponent,
-} from './customer-database.component';
+import { CustomerDatabaseComponent } from './customer-database.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,11 +10,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MessageCustomerProfile } from '@thomas-assessment/api-interfaces';
 
 describe('CustomerDatabaseComponent', () => {
   let component: CustomerDatabaseComponent;
   let fixture: ComponentFixture<CustomerDatabaseComponent>;
-  let customerData: CustomerData[];
+  let customerData: MessageCustomerProfile[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -33,6 +32,7 @@ describe('CustomerDatabaseComponent', () => {
         MatDialogModule,
         MatButtonModule,
         MatIconModule,
+        HttpClientTestingModule,
       ],
     }).compileComponents();
   });

@@ -4,6 +4,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomersEditDialogComponent } from './customers-edit-dialog.component';
+import {
+  MessageCustomerProfile,
+  Location,
+} from '@thomas-assessment/api-interfaces';
+import { CustomerDatabaseService } from '../customer-database.service';
 
 // Inspiration from https://stackblitz.com/angular/qodyagorxkp?file=src%2Fapp%2Ftable-overview-example.ts
 
@@ -26,7 +31,10 @@ export class CustomerDatabaseComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public editDialog: MatDialog) {
+  constructor(
+    public editDialog: MatDialog,
+    public customerDbService: CustomerDatabaseService
+  ) {
     // TODO: Create a service to get this from the API
     this.customers = new MatTableDataSource<CustomerData>(customerSeed);
   }
@@ -104,22 +112,8 @@ export class CustomerDatabaseComponent implements AfterViewInit {
   }
 }
 
-// TODO: move shared module (this is a DTO).
-/** OpenWeather uses city/state/country for their api, so mirror that */
-interface Location {
-  city: string;
-  state: string;
-  country?: string;
-}
-
-export interface CustomerData {
-  id: number; // treat -1 as not-yet-saved to the database
-  company: string;
-  contact: string;
-  phone: string;
-  location: Location;
-  employees: number;
-}
+// Just use the DTO
+type CustomerData = MessageCustomerProfile;
 
 class LocationInstance implements Partial<Location> {
   constructor(public city: string = '', public state: string = '') {}

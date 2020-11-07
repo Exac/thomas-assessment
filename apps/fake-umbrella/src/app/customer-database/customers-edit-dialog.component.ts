@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CustomerData } from './customer-database.component';
+import { MessageCustomerProfile as CustomerData } from '@thomas-assessment/api-interfaces';
 
 @Component({
   selector: 'customers-edit',
