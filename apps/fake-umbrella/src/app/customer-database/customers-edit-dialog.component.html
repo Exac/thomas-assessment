@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Edit {{ customerRef.company }}</h1>
+
+<section mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label>Company Name</mat-label>
+    <input matInput [(ngModel)]="customer.company">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Contact Name</mat-label>
+    <input matInput [(ngModel)]="customer.contact">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Phone Number</mat-label>
+    <input matInput [(ngModel)]="customer.phone">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Number of Employees</mat-label>
+    <input matInput type="number" [(ngModel)]="customer.employees">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>ID</mat-label>
+    <input matInput disabled [(ngModel)]="customer.id">
+  </mat-form-field>
+</section>
+
+<section mat-dialog-actions>
+  <button mat-raised-button (click)="closeAndUpdate()" color="primary" cdkFocusInitial>Save</button>
+
+  <button mat-raised-button (click)="closeAndDelete()" color="warn">Delete {{ customerRef.company }}</button>
+</section>

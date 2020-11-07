@@ -10,6 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('CustomerDatabaseComponent', () => {
   let component: CustomerDatabaseComponent;
@@ -27,6 +30,9 @@ describe('CustomerDatabaseComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatPaginatorModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule,
       ],
     }).compileComponents();
   });
@@ -34,10 +40,7 @@ describe('CustomerDatabaseComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerDatabaseComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
 
-  beforeEach(() => {
     customerData = [
       {
         company: 'Acme Ltd',
@@ -57,6 +60,8 @@ describe('CustomerDatabaseComponent', () => {
       },
     ];
     component.customers.data = customerData;
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -64,11 +69,36 @@ describe('CustomerDatabaseComponent', () => {
   });
 
   describe('The page should offer the options to create, update, and delete customers', () => {
-    it('should open an edit dialog when clicking/tapping a customer', () => {
-      // TODO
+    it('should open an edit dialog when clicking a customer to edit', () => {
       // Arrange
+      spyOn(component, 'openEditCustomerDialog');
+
       // Act
+      const button = fixture.debugElement.nativeElement.querySelector(
+        '.customer-row'
+      );
+      button.click();
+
       // Assert
+      fixture.whenStable().then(() => {
+        expect(component.openEditCustomerDialog).toHaveBeenCalledWith(
+          customerData[0]
+        );
+      });
+    });
+  });
+
+  it('should open an edit dialog when clicking the + FAB button to create', () => {
+    // Arrange
+    spyOn(component, 'openEditCustomerDialog');
+
+    // Act
+    const button = fixture.debugElement.nativeElement.querySelector('#fab');
+    button.click();
+
+    // Assert
+    fixture.whenStable().then(() => {
+      expect(component.openEditCustomerDialog).toHaveBeenCalledWith();
     });
   });
 

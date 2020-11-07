@@ -1,5 +1,9 @@
 <p>customer-database works!</p>
 
+<button mat-fab id="fab" (click)="openEditCustomerDialog()">
+  <mat-icon>add</mat-icon>
+</button>
+
 <mat-form-field appearance="outline">
   <mat-label>Search</mat-label>
   <input matInput (keyup)="search($event)" #input>
@@ -39,7 +43,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row class="customer-row" *matRowDef="let row; columns: displayedColumns;" (click)="openEditCustomerDialog(row)"></tr>
 
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="4">No results for "{{input.value}}"</td>
