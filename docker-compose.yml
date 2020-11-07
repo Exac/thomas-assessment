@@ -19,10 +19,10 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_module
-  redis:
-    expose:
-      - 6379
-    image: redis:alpine
+  mongodb:
     volumes:
-      - ./redis-data:/var/lib/redis
+    - ./mongo-data:/data/db
+    expose:
+      - 27017
+    image: mongo
 
