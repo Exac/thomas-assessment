@@ -1,31 +1,46 @@
+import { PartialType } from '@nestjs/mapped-types';
+
 export interface Message {
   message: string;
 }
 
 /** Message sent by frontend to create or update a customer in the backend. */
-export interface MessageCustomerProfile {
+export interface ICustomer {
   id: number; // treat -1 as not-yet-saved to the database
   company: string;
   contact: string;
   phone: string;
-  location: Location;
+  location: ILocation;
   employees: number;
+  rain: boolean;
 }
 
-export type MessageAllCustomerProfiles = MessageCustomerProfile[];
+export type ICustomers = ICustomer[];
 
 /** OpenWeather uses city/state/country for their api, so mirror that */
-export interface Location {
+export interface ILocation {
   city: string;
   state: string;
   country?: string;
 }
 
-/** Message sent by frontend to delete a customer in the backend. */
-export interface MessageCustomerDelete {
-  id: number;
+export class CustomerLocation implements ILocation {
+  city: string;
+  state: string;
+  country?: string;
 }
 
-export interface MessageCustomerDeleteResponse {
-  isDeleted: boolean;
+export class CreateCustomerDto
+  implements
+    Pick<
+      ICustomer,
+      'company' | 'contact' | 'phone' | 'location' | 'employees'
+    > {
+  company: string;
+  contact: string;
+  phone: string;
+  location: CustomerLocation;
+  employees: number;
 }
+
+export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {}

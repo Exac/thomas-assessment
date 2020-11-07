@@ -4,10 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomersEditDialogComponent } from './customers-edit-dialog.component';
-import {
-  MessageCustomerProfile,
-  Location,
-} from '@thomas-assessment/api-interfaces';
+import { ICustomer, ILocation } from '@thomas-assessment/api-interfaces';
 import { CustomerDatabaseService } from '../customer-database.service';
 
 // Inspiration from https://stackblitz.com/angular/qodyagorxkp?file=src%2Fapp%2Ftable-overview-example.ts
@@ -113,9 +110,9 @@ export class CustomerDatabaseComponent implements AfterViewInit {
 }
 
 // Just use the DTO
-type CustomerData = MessageCustomerProfile;
+type CustomerData = ICustomer;
 
-class LocationInstance implements Partial<Location> {
+class LocationInstance implements Partial<ILocation> {
   constructor(public city: string = '', public state: string = '') {}
 }
 
@@ -126,7 +123,8 @@ export class CustomerDataInstance implements Partial<CustomerData> {
     public employees: number = 0,
     public id: number = -1,
     public location: LocationInstance = new LocationInstance(),
-    public phone: string = ''
+    public phone: string = '',
+    public rain: boolean = false
   ) {}
 }
 
@@ -152,6 +150,7 @@ const customerSeed: CustomerData[] = [
     id: 0,
     location: { city: 'Vancouver', state: 'BC' },
     phone: '778-868-7447',
+    rain: true,
   },
   {
     company: 'Mind Beacon',
@@ -160,5 +159,6 @@ const customerSeed: CustomerData[] = [
     id: 1,
     location: { city: 'Toronto', state: 'ON' },
     phone: '416-868-7447',
+    rain: false,
   },
 ];

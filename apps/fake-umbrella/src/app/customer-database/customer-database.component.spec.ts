@@ -11,12 +11,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MessageCustomerProfile } from '@thomas-assessment/api-interfaces';
+import { ICustomer } from '@thomas-assessment/api-interfaces';
 
 describe('CustomerDatabaseComponent', () => {
   let component: CustomerDatabaseComponent;
   let fixture: ComponentFixture<CustomerDatabaseComponent>;
-  let customerData: MessageCustomerProfile[];
+  let customerData: ICustomer[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -49,6 +49,7 @@ describe('CustomerDatabaseComponent', () => {
         id: 0,
         location: { city: 'Vancouver', state: 'BC' },
         phone: '778-868-7447',
+        rain: true,
       },
       {
         company: 'Mind Beacon',
@@ -57,6 +58,7 @@ describe('CustomerDatabaseComponent', () => {
         id: 1,
         location: { city: 'Toronto', state: 'ON' },
         phone: '416-868-7447',
+        rain: false,
       },
     ];
     component.customers.data = customerData;
