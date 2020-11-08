@@ -9,23 +9,47 @@ import {
 
 @Injectable()
 export class CustomerService {
-  create(createCustomerDto: CreateCustomerDto): ICustomer {
+  async create(createCustomerDto: CreateCustomerDto): Promise<ICustomer> {
     return;
   }
 
-  findAll(): ICustomers {
-    return [];
+  async findAll(): Promise<ICustomer[]> {
+    return customerSeed;
   }
 
-  findOne(id: number): ICustomer {
+  async findOne(id: number): Promise<ICustomer> {
     return;
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto): ICustomer {
+  async update(
+    id: number,
+    updateCustomerDto: UpdateCustomerDto
+  ): Promise<ICustomer> {
     return;
   }
 
-  remove(id: number): Message {
+  async remove(id: number): Promise<Message> {
     return { message: `This action removes a #${id} customer` };
   }
 }
+
+const customerSeed: ICustomers = [
+  {
+    company: 'Fake Umbrella',
+    contact: 'Thomas McLennan',
+    employees: 10,
+    id: 0,
+    location: { city: 'Vancouver', state: 'BC' },
+    phone: '778-868-7447',
+    rain: true,
+  },
+  {
+    company: 'Mind Beacon',
+    contact: 'Meg Blair',
+    employees: 100,
+    id: 1,
+    location: { city: 'Toronto', state: 'ON' },
+    phone: '416-868-7447',
+    rain: false,
+  },
+];

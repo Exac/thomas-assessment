@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import {
   CreateCustomerDto,
   ICustomer,
@@ -17,16 +17,16 @@ export class CustomerDatabaseService {
     return this.http.post<string>('/api/customer', customer);
   }
 
-  findAll(): Observable<CreateCustomerDto[]> {
+  findAll(): Observable<ICustomer[]> {
     return this.http.get<ICustomer[]>('/api/customer');
   }
 
-  fineOne(id: number): Observable<ICustomer> {
+  findOne(id: number): Observable<ICustomer> {
     return this.http.get<ICustomer>(`/api/customer/${id}`);
   }
 
-  update(customer: UpdateCustomerDto): Observable<string> {
-    return this.http.put<string>(`/api/customer/${customer.id}`, customer);
+  update(customer: UpdateCustomerDto): Observable<ICustomer> {
+    return this.http.put<ICustomer>(`/api/customer/${customer.id}`, customer);
   }
 
   delete(id: number): Observable<string> {
