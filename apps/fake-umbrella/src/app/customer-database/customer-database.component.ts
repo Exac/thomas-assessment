@@ -15,7 +15,8 @@ import { CustomerDatabaseService } from '../customer-database.service';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-// Inspiration from https://stackblitz.com/angular/qodyagorxkp?file=src%2Fapp%2Ftable-overview-example.ts
+// Inspiration from
+// https://stackblitz.com/angular/qodyagorxkp?file=src%2Fapp%2Ftable-overview-example.ts
 
 @Component({
   selector: 'thomas-assessment-customer-database',
@@ -28,15 +29,6 @@ export class CustomerDatabaseComponent
   customers: MatTableDataSource<Customer> = new MatTableDataSource<Customer>(
     []
   );
-
-  /** Declare the columns we want to show in the GUI table of users */
-  displayedColumns: string[] = [
-    'company',
-    'contact',
-    'phone',
-    'location',
-    'employees',
-  ];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -57,20 +49,8 @@ export class CustomerDatabaseComponent
         .pipe(
           tap((customers) => {
             this.customers = new MatTableDataSource<Customer>(customers);
-            return customers;
           }),
-          tap((customers: ICustomer[]) => {
-            // The default filter won't search nested objects, but we have customer.location
-            this.customers.filterPredicate = (
-              customer: ICustomer,
-              filter: string
-            ) =>
-              [...Object.values(customer), ...Object.values(customer.location)]
-                .join()
-                .trim()
-                .toLowerCase()
-                .indexOf(filter) > -1;
-          })
+          tap(() => this.createCustomerFilterPredicate())
         )
         .subscribe()
     );
@@ -101,37 +81,29 @@ export class CustomerDatabaseComponent
   }
 
   /** Update the customer in the GUI table, and in the database */
-  updateCustomer(customer: Customer): void {
-    if (customer === undefined) {
-      return;
-    }
-
-    // ID of -1 means this is a new customer to add
-    if (customer.id === -1) {
-      this.customers.data.push(customer);
-      this.$.add(this.customerDbService.create(customer).subscribe());
-      return;
-    }
-
-    // Update the existing customer in the GUI table and the API
+  private updateCustomer(customer: Customer): void {
+    // Find and update customer in GUI data table
     const index = this.customers.data.findIndex((c) => c.id === customer.id);
     this.customers.data[index] = customer;
-    this.$.add(this.customerDbService.update(customer).subscribe());
-
-    // Force change detection to update the GUI table
     this.forceDialogChangeDetection();
+
+    // Call a customer API service and update the customer
+    this.$.add(this.customerDbService.update(customer).subscribe());
+  }
+
+  /** Create a new customer in the GUI table, and in the database */
+  private createCustomer(customer: Customer) {
+    this.customers.data.push(customer);
+    this.forceDialogChangeDetection();
+    this.$.add(this.customerDbService.create(customer).subscribe());
   }
 
   /** Deleted the customer in the GUI table, and in the database */
-  deleteCustomer(id: number) {
+  private deleteCustomer(id: number) {
     // Remove customer from GUI table
     const index = this.customers.data.findIndex((c) => c.id === id);
     this.customers.data.splice(index, 1);
-
-    // Trigger MatDialog's change detection, otherwise GUI table doesn't change
-    this.customers.data = this.customers.data;
-
-    // Call a customer API service and delete the customer by ID
+    this.forceDialogChangeDetection();
     this.$.add(this.customerDbService.delete(id).subscribe());
   }
 
@@ -153,19 +125,39 @@ export class CustomerDatabaseComponent
 
   /** After the user closes the customer-edit dialog, determine what to do with the Customer  */
   private handleCustomerDialogResponse(c: Customer | number | undefined) {
-    if (typeof c === 'number') {
+    if (typeof c === 'undefined') {
+      // If undefined, the user closed the edit box, so take no action
+      return;
+    } else if (typeof c === 'number') {
       // delete customer by id
       this.deleteCustomer(c);
+    } else if (c.id === -1) {
+      // create a new customer
+      this.createCustomer(c);
     } else {
       // Update the customer in the GUI and API
       this.updateCustomer(c);
     }
-    // If undefined, the user closed the edit box, so take no action
   }
 
   /** MatDialog's method to activate change detection is private, so force it to reload */
   private forceDialogChangeDetection() {
     this.customers.data = this.customers.data;
+  }
+
+  /**
+   * When users search for a customer, they want to be able to search every property of the
+   * customer, but `MatTableDataSource` by default doesn't search for child-properties like
+   * `customer.location`, so replace the `filterPredicate`.
+   */
+  private createCustomerFilterPredicate() {
+    this.customers.filterPredicate = (customer: ICustomer, filter: string) =>
+      // instead of importing a flatMap shim, just search flattened customer values
+      [...Object.values(customer), ...Object.values(customer.location)]
+        .join()
+        .trim()
+        .toLowerCase()
+        .indexOf(filter) > -1;
   }
 }
 

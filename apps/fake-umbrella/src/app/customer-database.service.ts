@@ -13,8 +13,8 @@ import {
 export class CustomerDatabaseService {
   constructor(private http: HttpClient) {}
 
-  create(customer: CreateCustomerDto): Observable<string> {
-    return this.http.post<string>('/api/customer', customer);
+  create(customer: CreateCustomerDto): Observable<ICustomer> {
+    return this.http.post<ICustomer>('/api/customer', customer);
   }
 
   findAll(): Observable<ICustomer[]> {
