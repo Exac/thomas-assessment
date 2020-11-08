@@ -29,7 +29,7 @@ export class CustomerDatabaseService {
     return this.http.put<ICustomer>(`/api/customer/${customer.id}`, customer);
   }
 
-  delete(id: number): Observable<string> {
+  delete(id: string): Observable<string> {
     return this.http.delete<string>(`/api/customer/${id}`);
   }
 }

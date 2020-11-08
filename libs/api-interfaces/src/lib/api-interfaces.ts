@@ -4,7 +4,7 @@ export interface Message {
 
 /** Message sent by frontend to create or update a customer in the backend. */
 export interface ICustomer {
-  id: number; // treat -1 as not-yet-saved to the database
+  id: string; // treat -1 as not-yet-saved to the database
   company: string;
   contact: string;
   phone: string;
@@ -28,12 +28,8 @@ export class CustomerLocation implements ILocation {
   country?: string;
 }
 
-export class CreateCustomerDto
-  implements
-    Pick<
-      ICustomer,
-      'company' | 'contact' | 'phone' | 'location' | 'employees'
-    > {
+/** Customer without the index or rain property */
+export class CreateCustomerDto implements Omit<ICustomer, 'id' | 'rain'> {
   company: string;
   contact: string;
   phone: string;
@@ -42,7 +38,7 @@ export class CreateCustomerDto
 }
 
 export class UpdateCustomerDto implements Partial<ICustomer> {
-  id?: number;
+  id?: string;
   company?: string;
   contact?: string;
   phone?: string;

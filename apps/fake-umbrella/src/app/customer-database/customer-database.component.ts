@@ -99,7 +99,7 @@ export class CustomerDatabaseComponent
   }
 
   /** Deleted the customer in the GUI table, and in the database */
-  private deleteCustomer(id: number) {
+  private deleteCustomer(id: string) {
     // Remove customer from GUI table
     const index = this.customers.data.findIndex((c) => c.id === id);
     this.customers.data.splice(index, 1);
@@ -124,14 +124,14 @@ export class CustomerDatabaseComponent
   }
 
   /** After the user closes the customer-edit dialog, determine what to do with the Customer  */
-  private handleCustomerDialogResponse(c: Customer | number | undefined) {
+  private handleCustomerDialogResponse(c: Customer | string | undefined) {
     if (typeof c === 'undefined') {
       // If undefined, the user closed the edit box, so take no action
       return;
-    } else if (typeof c === 'number') {
+    } else if (typeof c === 'string') {
       // delete customer by id
       this.deleteCustomer(c);
-    } else if (c.id === -1) {
+    } else if (c.id === '') {
       // create a new customer
       this.createCustomer(c);
     } else {
@@ -173,7 +173,7 @@ export class CustomerEntity implements Partial<Customer> {
     public company: string = '',
     public contact: string = '',
     public employees: number = 0,
-    public id: number = -1,
+    public id: string = '',
     public location: LocationInstance = new LocationInstance(),
     public phone: string = '',
     public rain: boolean = false
