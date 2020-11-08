@@ -1,4 +1,5 @@
 node_modules
 dist
 .dockerignore
+docker-compose.yml
 mongo-data

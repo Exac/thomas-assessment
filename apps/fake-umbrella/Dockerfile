@@ -10,4 +10,4 @@ RUN npm install && npm i -g @nrwl/cli @angular/cli
 
 COPY . /usr/src/app
 
-CMD nx serve --host=0.0.0.0 --disable-host-check=true --poll fake-umbrella
+CMD nx serve fake-umbrella --host=0.0.0.0 --disable-host-check=true
