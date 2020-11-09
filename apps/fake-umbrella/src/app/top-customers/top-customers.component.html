@@ -1,1 +1,29 @@
 <p>top-customers works!</p>
+
+<section id="chart" class="mat-elevation-z8">
+  <div class="section section-80"></div>
+  <div class="section section-60"></div>
+  <div class="section section-40"></div>
+  <div class="section section-20"></div>
+  <div class="section section-00"></div>
+
+  <section class="company-container">
+    <div [style.height.%]="company[0].height" [class.rain]="company[0].rain"></div>
+    <div [style.height.%]="company[1].height" [class.rain]="company[1].rain"></div>
+    <div [style.height.%]="company[2].height" [class.rain]="company[2].rain"></div>
+    <div [style.height.%]="company[3].height" [class.rain]="company[3].rain"></div>
+  </section>
+
+  <div class="y-label y-label-80">{{ maxEmployees * 0.8 }}</div>
+  <div class="y-label y-label-60">{{ maxEmployees * 0.6}}</div>
+  <div class="y-label y-label-40">{{ maxEmployees * 0.4}}</div>
+  <div class="y-label y-label-20">{{ maxEmployees * 0.2}}</div>
+  <div class="y-label y-label-00">0</div>
+
+  <section class="x-label-container">
+    <div class="x-label x-label-0"><span>'company 0 name goes here, it could be very loong indeed'</span></div>
+    <div class="x-label x-label-1"><span>'company 1 name goes here, it could be very loong indeed'</span></div>
+    <div class="x-label x-label-2"><span>'company 2 name goes here, it could be very loong indeed'</span></div>
+    <div class="x-label x-label-3"><span>'company 3 name goes here, it could be very loong indeed'</span></div>
+  </section>
+</section>

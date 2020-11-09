@@ -1,0 +1,127 @@
+:host-context {
+  display: block;
+  margin: 1rem 1rem 6rem 1rem;
+  --black: rgba(24, 24, 24, 0.5);
+}
+
+#chart {
+  position: relative;
+  height: 61.8vh;
+}
+
+.section {
+  width: 100%;
+  height: 1px;
+  background-color: var(--black);
+  opacity: 0.5;
+  position: absolute;
+}
+
+.section-80 {
+  bottom: 80%;
+}
+
+.section-60 {
+  bottom: 60%;
+}
+
+.section-40 {
+  bottom: 40%;
+}
+
+.section-20 {
+  bottom: 20%;
+}
+
+.section-0 {
+  bottom: 0;
+  height: 2px
+}
+
+.company-container {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+
+}
+.company-container div {
+  background-color: red;
+  width: 15%;
+  max-height: 100%;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.company-container .rain {
+  background-color: green;
+}
+
+.y-label {
+  position: absolute;
+  left: -1rem;
+  width: 1rem;
+  height: 0.66rem;
+  vertical-align: bottom;
+  text-align: right;
+  color: var(--black);
+}
+
+.y-label-80 {
+  bottom: 80%;
+}
+
+.y-label-60 {
+  bottom: 60%;
+}
+
+.y-label-40 {
+  bottom: 40%;
+}
+
+.y-label-20 {
+  bottom: 20%;
+}
+
+.y-label-00 {
+  bottom: 0%;
+}
+
+.x-label-container {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  bottom: 0;
+  height: 0;
+}
+
+.x-label {
+  text-align: center;
+  color: var(--black);
+}
+
+.x-label span {
+  display: inline-block;
+  max-width: calc(15% + 1.5);
+}
+
+.x-label-3 {
+  left: calc(15% * 5.5);
+}
+
+.x-label-2 {
+  left: calc(15% * 4);
+}
+
+.x-label-1 {
+  left: calc(15% * 2.5);
+}
+
+.x-label-00 {
+  left: 15%;
+}
+
