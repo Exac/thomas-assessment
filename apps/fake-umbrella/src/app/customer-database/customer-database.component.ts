@@ -93,9 +93,12 @@ export class CustomerDatabaseComponent
 
   /** Create a new customer in the GUI table, and in the database */
   private createCustomer(customer: Customer) {
-    this.customers.data.push(customer);
-    this.forceDialogChangeDetection();
-    this.$.add(this.customerDbService.create(customer).subscribe());
+    this.$.add(
+      this.customerDbService.create(customer).subscribe((c) => {
+        this.customers.data.push(c);
+        this.forceDialogChangeDetection();
+      })
+    );
   }
 
   /** Deleted the customer in the GUI table, and in the database */

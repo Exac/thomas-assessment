@@ -1,7 +1,7 @@
 import { ICustomer, ILocation } from '@thomas-assessment/api-interfaces';
 
 class Customer implements ICustomer {
-  id: number = -1; // treat -1 as not-yet-saved to the database
+  id: string = ''; // treat empty string as not-yet-saved to the database
   company: string = '';
   contact: string = '';
   phone: string = '';

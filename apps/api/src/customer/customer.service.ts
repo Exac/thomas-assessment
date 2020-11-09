@@ -6,50 +6,43 @@ import {
   Message,
   UpdateCustomerDto,
 } from '@thomas-assessment/api-interfaces';
+import { Customer, CustomerDocument } from './schemas/customer.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class CustomerService {
-  async create(createCustomerDto: CreateCustomerDto): Promise<ICustomer> {
-    return;
+  constructor(
+    @InjectModel(Customer.name) private customerModel: Model<CustomerDocument>
+  ) {}
+
+  async create(
+    createCustomerDto: CreateCustomerDto
+  ): Promise<ICustomer | CustomerDocument> {
+    const customer: Customer = { ...createCustomerDto, rain: false };
+    const createdCustomer = new this.customerModel(customer);
+    return createdCustomer.save();
   }
 
-  async findAll(): Promise<ICustomer[]> {
-    return customerSeed;
+  async findAll(): Promise<CustomerDocument[]> {
+    const docs = this.customerModel.find().exec();
+    return docs;
   }
 
-  async findOne(id: number): Promise<ICustomer> {
-    return;
+  async findOne(_id: string): Promise<ICustomer | CustomerDocument> {
+    return this.customerModel.findOne({ _id });
   }
 
   async update(
-    id: number,
+    id: string,
     updateCustomerDto: UpdateCustomerDto
   ): Promise<ICustomer> {
     return;
   }
 
-  async remove(id: number): Promise<Message> {
-    return { message: `This action removes a #${id} customer` };
+  async remove(_id: string): Promise<unknown> {
+    const delete_result = this.customerModel.deleteMany({ _id });
+    console.log({ delete_result });
+    return delete_result;
   }
 }
-
-const customerSeed: ICustomers = [
-  {
-    company: 'Fake Umbrella',
-    contact: 'Thomas McLennan',
-    employees: 10,
-    id: '0000',
-    location: { city: 'Vancouver', state: 'BC' },
-    phone: '778-868-7447',
-    rain: true,
-  },
-  {
-    company: 'Mind Beacon',
-    contact: 'Meg Blair',
-    employees: 100,
-    id: '0001',
-    location: { city: 'Toronto', state: 'ON' },
-    phone: '416-868-7447',
-    rain: false,
-  },
-];
