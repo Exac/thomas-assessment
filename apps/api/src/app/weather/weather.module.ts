@@ -1,6 +1,6 @@
 import { HttpModule, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { OwmCache, OwmCacheSchema } from './schemas/owm-cache.schema';
+import { OwmCache, OwmCacheSchema } from './schemas/owmcache.schema';
 import { WeatherService } from './weather.service';
 
 @Module({

@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CustomerController } from './customer.controller';
 import { CustomerService } from './customer.service';
 import { getModelToken } from '@nestjs/mongoose';
+import { WeatherService } from '../weather/weather.service';
 
 const customerModel = {};
 
@@ -14,6 +15,7 @@ describe('CustomerController', () => {
       providers: [
         CustomerService,
         { provide: getModelToken('Customer'), useValue: customerModel },
+        { provide: WeatherService, useValue: {} },
       ],
     }).compile();
 

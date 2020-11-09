@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@nestjs/common';
 import { environment } from '../../environments/environment';
 import { HttpService, UseInterceptors } from '@nestjs/common';
-import { CachingInterceptor } from './caching.interceptor';
 import { InjectModel } from '@nestjs/mongoose';
-import { OwmCache, OwnCacheDocument } from './schemas/owm-cache.schema';
+import { OwmCache, OwnCacheDocument } from './schemas/owmcache.schema';
 import { Model } from 'mongoose';
-import { openweathermap } from './entities/weather.entities';
+import { ApiResponse } from './entities/weather.entities';
 
 /**
  * This service provides weather for locations. We can only make a limited number of API calls to
@@ -13,10 +12,7 @@ import { openweathermap } from './entities/weather.entities';
  *
  * Limit of 60 calls per minute
  */
-@Injectable({
-  providedIn: 'root',
-})
-@UseInterceptors(CachingInterceptor)
+@Injectable()
 export class WeatherService {
   private static apiKey: string = environment.openweathermapApiKey;
 
@@ -25,29 +21,35 @@ export class WeatherService {
     @InjectModel(OwmCache.name) private ownCacheModel: Model<OwnCacheDocument>
   ) {}
 
-  async test(n: number) {
-    const response = await this.http
-      .get<string>(`http://thomasmclennan.ca/?n=${n}`)
-      .toPromise();
-  }
-
+  /**
+   * Returns `true` if rain is found in the 5-day forecast
+   * @param city Name of city eg: "Seattle"
+   */
   async isRainForecast(city: string): Promise<boolean> {
-    const uri = `api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${WeatherService.apiKey}`;
+    if (city.length < 2) {
+      return false;
+    }
+
+    const uri = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${WeatherService.apiKey}`;
     // 1. check cache
+    const cached = await this.ownCacheModel.findOne({ uri });
+    if (cached !== null) {
+      return WeatherService.doesApiResponseContainRain(cached.response);
+    }
 
     // 2. lookup forecast
-    const response = await this.http
-      .get<openweathermap.ApiResponse>(uri)
-      .toPromise();
+    const response = await this.http.get<ApiResponse>(uri).toPromise();
 
     // 3. cache result
+    await new this.ownCacheModel(<OwmCache>{
+      uri,
+      response: response.data,
+    }).save();
 
-    return this.doesApiResponseContainRain(response.data);
+    return WeatherService.doesApiResponseContainRain(response.data);
   }
 
-  private doesApiResponseContainRain(dat: openweathermap.ApiResponse): boolean {
+  private static doesApiResponseContainRain(dat: ApiResponse): boolean {
     return JSON.stringify(dat).toLowerCase().indexOf('rain') > -1;
   }
-
-  private cache(response: openweathermap.ApiResponse): void {}
 }

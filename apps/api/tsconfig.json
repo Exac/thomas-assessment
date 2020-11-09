@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "emitDecoratorMetadata": true
+  },
   "extends": "../../tsconfig.base.json",
   "files": [],
   "include": [],

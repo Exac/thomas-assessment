@@ -1,7 +1,7 @@
 import { WeatherService } from './weather.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpModule } from '@nestjs/common';
-import { OwmCache } from './schemas/owm-cache.schema';
+import { OwmCache } from './schemas/owmcache.schema';
 import { getModelToken } from '@nestjs/mongoose';
 
 const owmCacheModel = {};

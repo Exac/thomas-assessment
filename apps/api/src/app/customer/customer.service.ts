@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Dependencies, Inject, Injectable } from '@nestjs/common';
 import {
   CreateCustomerDto,
   ICustomer,
@@ -7,23 +7,31 @@ import {
 import { Customer, CustomerDocument } from './schemas/customer.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { WeatherService } from '../weather/weather.service';
 
-@Injectable()
+@Dependencies(WeatherService)
 export class CustomerService {
   constructor(
-    @InjectModel(Customer.name) private customerModel: Model<CustomerDocument>
+    @InjectModel(Customer.name) private customerModel: Model<CustomerDocument>,
+    @Inject(WeatherService) public weather: WeatherService
   ) {}
 
   async create(
     createCustomerDto: CreateCustomerDto
   ): Promise<ICustomer | CustomerDocument> {
     const customer: Customer = { ...createCustomerDto, rain: false };
-    const createdCustomer = new this.customerModel(customer);
-    return createdCustomer.save();
+    const createdCustomer: CustomerDocument = await new this.customerModel(
+      customer
+    ).save();
+    return await this.checkForRain([createdCustomer])[0];
   }
 
   async findAll(): Promise<CustomerDocument[]> {
-    return this.customerModel.find().exec();
+    const customers: CustomerDocument[] = await this.customerModel
+      .find()
+      .exec();
+
+    return this.checkForRain(customers);
   }
 
   async findOne(_id: string): Promise<ICustomer | CustomerDocument> {
@@ -47,5 +55,18 @@ export class CustomerService {
       .findOneAndDelete({ _id })
       .then(() => true)
       .catch(() => false);
+  }
+
+  private async checkForRain(
+    customers: CustomerDocument[]
+  ): Promise<CustomerDocument[]> {
+    const promises = [
+      ...customers.map(async (c) => {
+        c.rain = await this.weather.isRainForecast(c?.location?.city);
+        return c;
+      }),
+    ];
+
+    return await Promise.all(promises);
   }
 }
