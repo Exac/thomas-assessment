@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CustomerService } from './customer.service';
-import { getModelToken, MongooseModule } from '@nestjs/mongoose';
-import { Customer, CustomerSchema } from './schemas/customer.schema';
+import { getModelToken } from '@nestjs/mongoose';
+import { Customer } from './schemas/customer.schema';
 
 const customerModel = {};
 
