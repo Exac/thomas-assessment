@@ -33,6 +33,8 @@ export class CustomerDatabaseComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  public pageSizeOpts = [5, 10, 25, 50, 100];
+
   /** Pool of subscriptions that we can unsub from to prevent memory leaks */
   private $: Subscription = new Subscription();
 
@@ -57,8 +59,11 @@ export class CustomerDatabaseComponent
   }
 
   ngAfterViewInit() {
-    this.customers.paginator = this.paginator;
-    this.customers.sort = this.sort;
+    setTimeout(() => {
+      //  Trigger change detection with setTimeout, then setup MatTable's sort & paginator fns
+      this.customers.paginator = this.paginator;
+      this.customers.sort = this.sort;
+    });
   }
 
   /** When a user clicks a customer, open a dialog for them to edit the customer */

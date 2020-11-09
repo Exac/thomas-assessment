@@ -1,6 +1,6 @@
 :host-context {
   display: block;
-  margin: 1rem;
+  margin: 1rem 1rem 6rem 1rem;
 }
 
 #fab {
@@ -19,7 +19,7 @@ table {
 }
 
 td, th {
-  width: 20%;
+  width: 16.6%;
 }
 
 tr {

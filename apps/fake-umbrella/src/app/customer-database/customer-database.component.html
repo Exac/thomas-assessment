@@ -32,6 +32,14 @@
       <td mat-cell *matCellDef="let row">{{row.phone}}</td>
     </ng-container>
 
+    <ng-container matColumnDef="rain">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Rain Forecasted</th>
+      <td mat-cell *matCellDef="let row">
+        <mat-icon *ngIf="!row.rain" style="opacity: 0.1">wb_sunny</mat-icon>
+        <mat-icon *ngIf="row.rain" color="primary">umbrella</mat-icon>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="location">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
       <td mat-cell *matCellDef="let row">{{row.location.city}} {{row.location.state}}</td>
@@ -42,9 +50,9 @@
       <td mat-cell *matCellDef="let row">{{row.employees}}</td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['company', 'contact', 'phone', 'location', 'employees']"></tr>
+    <tr mat-header-row *matHeaderRowDef="['company', 'contact', 'phone', 'rain', 'location', 'employees']"></tr>
     <tr mat-row class="customer-row"
-        *matRowDef="let row; columns: ['company', 'contact', 'phone', 'location', 'employees'];"
+        *matRowDef="let row; columns: ['company', 'contact', 'phone', 'rain', 'location', 'employees'];"
         (click)="openEditCustomerDialog(row)"></tr>
 
     <tr class="mat-row" *matNoDataRow>
@@ -52,5 +60,5 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="pageSizeOpts"></mat-paginator>
 </section>

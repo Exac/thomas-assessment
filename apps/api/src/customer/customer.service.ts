@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import {
   CreateCustomerDto,
   ICustomer,
-  ICustomers,
-  Message,
   UpdateCustomerDto,
 } from '@thomas-assessment/api-interfaces';
 import { Customer, CustomerDocument } from './schemas/customer.schema';
@@ -25,8 +23,7 @@ export class CustomerService {
   }
 
   async findAll(): Promise<CustomerDocument[]> {
-    const docs = this.customerModel.find().exec();
-    return docs;
+    return this.customerModel.find().exec();
   }
 
   async findOne(_id: string): Promise<ICustomer | CustomerDocument> {
@@ -34,15 +31,21 @@ export class CustomerService {
   }
 
   async update(
-    id: string,
+    _id: string,
     updateCustomerDto: UpdateCustomerDto
-  ): Promise<ICustomer> {
-    return;
+  ): Promise<CustomerDocument> {
+    return this.customerModel.findOneAndUpdate(
+      { _id },
+      { $set: updateCustomerDto },
+      { new: true }
+    );
   }
 
-  async remove(_id: string): Promise<unknown> {
-    const delete_result = this.customerModel.deleteMany({ _id });
-    console.log({ delete_result });
-    return delete_result;
+  /** Delete customer, return true if successful */
+  async remove(_id: string): Promise<boolean> {
+    return this.customerModel
+      .findOneAndDelete({ _id })
+      .then(() => true)
+      .catch(() => false);
   }
 }
