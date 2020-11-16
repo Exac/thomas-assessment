@@ -23,7 +23,9 @@ export class CustomerService {
     const createdCustomer: CustomerDocument = await new this.customerModel(
       customer
     ).save();
-    return await this.checkForRain([createdCustomer])[0];
+
+    // Promise must resolve before getting first member of array
+    return (await this.checkForRain([createdCustomer]))[0];
   }
 
   async findAll(): Promise<CustomerDocument[]> {
